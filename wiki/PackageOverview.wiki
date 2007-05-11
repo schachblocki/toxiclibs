@@ -1,0 +1,21 @@
+#summary toplevel overview of the project packages
+
+= Package overview =
+
+Currently the following packages are available:
+
+  * *toxi.audio* - [https://joal.dev.java.net/ JOAL] focused utilities/soundmanager
+  * *toxi.geom* - currently only consists of a comprehensive 3D vector class (Javadocs available in the [http://code.google.com/p/toxiclibs/downloads/list download])
+  * *toxi.image.util* - grayscale image filters, colour palette sorting
+  * *toxi.math*
+    * some (collected) faster implementations of assorted common math functions
+    * sin/cos lookup tables
+    * perlin & simplex noise
+    * wave generators
+  * *toxi.util.datatypes* - currently only TypedProperties class for dealing with Java property files
+  * *toxi.video* - JMF based video capturing (needs updating)
+
+more to come...
+
+
+
