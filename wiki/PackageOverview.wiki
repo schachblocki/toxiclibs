@@ -1,4 +1,5 @@
 #summary toplevel overview of the project packages
+#labels Featured
 
 = Package overview =
 
@@ -16,6 +17,5 @@ Currently the following packages are available:
   * *toxi.video* - JMF based video capturing (needs updating)
 
 more to come...
-
 
 
