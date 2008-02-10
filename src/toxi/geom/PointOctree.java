@@ -44,9 +44,6 @@ public class PointOctree extends AABB {
 	 */
 	private float minNodeSize = 4;
 
-	/**
-	 * 
-	 */
 	protected PointOctree parent;
 
 	protected PointOctree[] children;

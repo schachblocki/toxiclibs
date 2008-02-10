@@ -20,7 +20,7 @@
 
 package toxi.geom;
 
-import toxi.math.FastMath;
+import toxi.math.MathUtils;
 import toxi.math.InterpolateStrategy;
 
 /**
@@ -108,6 +108,23 @@ public class Vec3D {
 	}
 
 	/**
+	 * @return a new independent instance/copy of a given vector
+	 */
+	public Vec3D copy() {
+		return new Vec3D(this);
+	}
+
+	/**
+	 * Sets all vector components to 0.
+	 * 
+	 * @return itself
+	 */
+	public Vec3D clear() {
+		x = y = z = 0;
+		return this;
+	}
+
+	/**
 	 * Overrides coordinates with the ones of the given vector
 	 * 
 	 * @param v
@@ -142,7 +159,8 @@ public class Vec3D {
 	 * @return true, if vector = {0,0,0}
 	 */
 	public final boolean isZeroVector() {
-		return x == 0 && y == 0 && z == 0;
+		return x==0 && y==0 && z==0;
+		//return magnitude()<FastMath.EPS;
 	}
 
 	/**
@@ -160,7 +178,7 @@ public class Vec3D {
 	 * @return itself
 	 */
 	public final Vec3D normalize() {
-		float mag = FastMath.sqrt(x * x + y * y + z * z);
+		float mag = MathUtils.sqrt(x * x + y * y + z * z);
 		if (mag > 0) {
 			mag = 1f / mag;
 			x *= mag;
@@ -206,21 +224,22 @@ public class Vec3D {
 	 * @return itself
 	 */
 	public final Vec3D constrain(AABB box) {
-		x = FastMath.max(FastMath.min(x, box.maxX()), box.minX());
-		y = FastMath.max(FastMath.min(y, box.maxY()), box.minY());
-		z = FastMath.max(FastMath.min(z, box.maxZ()), box.minZ());
+		x = MathUtils.max(MathUtils.min(x, box.maxX()), box.minX());
+		y = MathUtils.max(MathUtils.min(y, box.maxY()), box.minY());
+		z = MathUtils.max(MathUtils.min(z, box.maxZ()), box.minZ());
 		return this;
 	}
 
 	/**
 	 * Creates a copy of the vector which forcefully fits in the given AABB.
+	 * 
 	 * @param box
 	 * @return fitted vector
 	 */
 	public final Vec3D getConstrained(AABB box) {
-		return new Vec3D(FastMath.max(FastMath.min(x, box.maxX()), box.minX()),
-				FastMath.max(FastMath.min(y, box.maxY()), box.minY()), FastMath
-						.max(FastMath.min(z, box.maxZ()), box.minZ()));
+		return new Vec3D(MathUtils.max(MathUtils.min(x, box.maxX()), box.minX()),
+				MathUtils.max(MathUtils.min(y, box.maxY()), box.minY()), MathUtils
+						.max(MathUtils.min(z, box.maxZ()), box.minZ()));
 	}
 
 	/**
@@ -229,7 +248,7 @@ public class Vec3D {
 	 * @return vector length
 	 */
 	public final float magnitude() {
-		return FastMath.sqrt(x * x + y * y + z * z);
+		return MathUtils.sqrt(x * x + y * y + z * z);
 	}
 
 	/**
@@ -248,14 +267,14 @@ public class Vec3D {
 	 * 
 	 * @param v
 	 *            non-null vector
-	 * @return distance or NaN if v=null
+	 * @return distance or Float.NaN if v=null
 	 */
 	public final float distanceTo(Vec3D v) {
 		if (v != null) {
 			float dx = x - v.x;
 			float dy = y - v.y;
 			float dz = z - v.z;
-			return FastMath.sqrt(dx * dx + dy * dy + dz * dz);
+			return MathUtils.sqrt(dx * dx + dy * dy + dz * dz);
 		} else {
 			return Float.NaN;
 		}
@@ -767,7 +786,7 @@ public class Vec3D {
 		float denom = planeNormal.dot(rayDir);
 
 		// normal is orthogonal to vector, cant intersect
-		if (FastMath.abs(denom) < FastMath.EPS)
+		if (MathUtils.abs(denom) < MathUtils.EPS)
 			return -1;
 
 		return -(numer / denom);
@@ -819,7 +838,7 @@ public class Vec3D {
 		total_angles += (float) Math.acos(v2.dot(v3));
 		total_angles += (float) Math.acos(v3.dot(v1));
 
-		return (FastMath.abs(total_angles - FastMath.TWO_PI) <= 0.005f);
+		return (MathUtils.abs(total_angles - MathUtils.TWO_PI) <= 0.005f);
 	}
 
 	/**
@@ -966,11 +985,11 @@ public class Vec3D {
 	public Vec3D tangentPlaneNormalOfEllipsoid(Vec3D eO, Vec3D eR) {
 		Vec3D p = this.sub(eO);
 
-		float a2 = eR.x * eR.x;
-		float b2 = eR.y * eR.y;
-		float c2 = eR.z * eR.z;
+		float xr2 = eR.x * eR.x;
+		float yr2 = eR.y * eR.y;
+		float zr2 = eR.z * eR.z;
 
-		return new Vec3D(p.x / a2, p.y / b2, p.z / c2).normalize();
+		return new Vec3D(p.x / xr2, p.y / yr2, p.z / zr2).normalize();
 	}
 
 	/**
@@ -987,9 +1006,9 @@ public class Vec3D {
 	public int classifyPoint(Vec3D pO, Vec3D pN) {
 		Vec3D dir = pO.sub(this);
 		float d = dir.dot(pN);
-		if (d < -FastMath.EPS)
+		if (d < -MathUtils.EPS)
 			return PLANE_FRONT;
-		else if (d > FastMath.EPS)
+		else if (d > MathUtils.EPS)
 			return PLANE_BACK;
 
 		return ON_PLANE;
@@ -1121,7 +1140,6 @@ public class Vec3D {
 		return rnd.normalize();
 	}
 
-	
 	public static final Vec3D fromXYTheta(float theta) {
 		return new Vec3D((float) Math.cos(theta), (float) Math.sin(theta), 0);
 	}

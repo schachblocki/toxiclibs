@@ -20,7 +20,7 @@ public class SigmoidInterpolation implements InterpolateStrategy {
 		setSharpness(s);
 	}
 
-	private void setSharpness(float s) {
+	public void setSharpness(float s) {
 		sharpness = s;
 		sharpPremult = 5 * s;
 	}

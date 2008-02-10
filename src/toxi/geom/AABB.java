@@ -20,7 +20,7 @@
 
 package toxi.geom;
 
-import toxi.math.FastMath;
+import toxi.math.MathUtils;
 
 /**
  * Axis-aligned bounding box
@@ -38,27 +38,27 @@ public class AABB extends Vec3D {
 		this(box,box.extend);
 	}
 	
-	public float minX() {
+	public final float minX() {
 		return x - extend.x;
 	}
 
-	public float maxX() {
+	public final float maxX() {
 		return x + extend.x;
 	}
 
-	public float minY() {
+	public final float minY() {
 		return y - extend.y;
 	}
 
-	public float maxY() {
+	public final float maxY() {
 		return y + extend.y;
 	}
 
-	public float minZ() {
+	public final float minZ() {
 		return z - extend.z;
 	}
 
-	public float maxZ() {
+	public final float maxZ() {
 		return z + extend.z;
 	}
 
@@ -110,9 +110,9 @@ public class AABB extends Vec3D {
 	 */
 	public boolean intersectsBox(AABB b) {
 		Vec3D t = b.sub(this);
-		return FastMath.abs(t.x) <= (extend.x + b.extend.x)
-				&& FastMath.abs(t.y) <= (extend.y + b.extend.y)
-				&& FastMath.abs(t.z) <= (extend.z + b.extend.z);
+		return MathUtils.abs(t.x) <= (extend.x + b.extend.x)
+				&& MathUtils.abs(t.y) <= (extend.y + b.extend.y)
+				&& MathUtils.abs(t.z) <= (extend.z + b.extend.z);
 	}
 	
 	public String toString() {

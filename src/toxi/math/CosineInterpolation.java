@@ -18,26 +18,23 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
-package toxi.util.datatypes;
+package toxi.math;
 
-import java.util.Properties;
+/**
+ * Implementation of the cosine interpolation function:
+ * 
+ * i = b+(a-b)*(0.5+0.5*cos(f*PI))
+ *
+ * @author toxi
+ *
+ */
+public class CosineInterpolation implements InterpolateStrategy {
 
-@SuppressWarnings("serial")
-public class TypedProperties extends Properties {
-
-	public boolean getBoolean(String id, boolean defState) {
-		return Boolean.parseBoolean(getProperty(id, "" + defState));
+	/* (non-Javadoc)
+	 * @see toxi.math.InterpolateStrategy#interpolate(float, float, float)
+	 */
+	public final float interpolate(float a, float b, float f) {
+		return b+(a-b)*(0.5f+0.5f*(float)Math.cos(f*MathUtils.PI));
 	}
 
-	public int getInt(String id, int defVal) {
-		return Integer.parseInt(getProperty(id, "" + defVal));
-	}
-
-	public int getHexInt(String id, int defVal) {
-		return Integer.parseInt(getProperty(id, Integer.toHexString(defVal)),16);
-	}
-
-	public float getFloat(String id, float defVal) {
-		return Float.parseFloat(getProperty(id, "" + defVal));
-	}
 }

@@ -22,11 +22,11 @@ package toxi.math;
 
 public class SinCosLUT {
 
-	// set table precision to 0.5 degrees
+	// set table precision to 0.25 degrees
 	public static final float SC_PRECISION = 0.25f;
 
 	// caculate reciprocal for conversions
-	public static final float SC_INV_PREC = 1 / SC_PRECISION;
+	public static final float SC_INV_PREC = 1.0f / SC_PRECISION;
 
 	// compute required table length
 	public static final int SC_PERIOD = (int) (360f * SC_INV_PREC);
