@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="javadoc">
+    <target name="javadoc">
+        <javadoc access="protected" author="true" classpath="lib/jogl.jar;lib/opengl.jar;C:\java\eclipse\plugins\org.junit_3.8.2.v200706111738\junit.jar;lib/joal.jar;lib/core.jar" destdir="doc" nodeprecated="false" nodeprecatedlist="false" noindex="false" nonavbar="false" notree="false" packagenames="toxi.math.noise,toxi.geom,toxi.math.waves,toxi.math" source="1.4" sourcepath="src" splitindex="true" use="true" version="true"/>
+    </target>
+</project>
