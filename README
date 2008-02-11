@@ -6,7 +6,7 @@ toxi.geom.*
 toxi.math.*
 
 If you're going to use these classes for Processing projects,
-first drop the "toxiclibs-geom" folder into the "libraries" folder of your
+first drop the "geomutils" folder into the "libraries" folder of your
 Processing installation. You'll then need to restart Processing in order
 for it to find this new library.
 
