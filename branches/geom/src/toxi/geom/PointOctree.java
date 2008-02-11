@@ -243,10 +243,7 @@ public class PointOctree extends AABB {
 		return results;
 	}
 
-	// FIXME remove PApplet dependency
-	/**
-	 * @param app
-	 */
+	//FIXME remove PApplet dependency
 	public void draw(PApplet app) {
 		if (numChildren > 0) {
 			app.noFill();
@@ -260,7 +257,7 @@ public class PointOctree extends AABB {
 					children[i].draw(app);
 			}
 		}
-	}
+	} //*/
 
 	/*
 	 * (non-Javadoc)
