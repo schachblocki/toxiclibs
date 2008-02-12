@@ -110,7 +110,7 @@ public class Vec3D {
 	/**
 	 * @return a new independent instance/copy of a given vector
 	 */
-	public Vec3D copy() {
+	public final Vec3D copy() {
 		return new Vec3D(this);
 	}
 
@@ -119,7 +119,7 @@ public class Vec3D {
 	 * 
 	 * @return itself
 	 */
-	public Vec3D clear() {
+	public final Vec3D clear() {
 		x = y = z = 0;
 		return this;
 	}
@@ -422,7 +422,7 @@ public class Vec3D {
 	 *            scale factor
 	 * @return new vector
 	 */
-	public Vec3D scale(float s) {
+	public final Vec3D scale(float s) {
 		return new Vec3D(x * s, y * s, z * s);
 	}
 
@@ -437,7 +437,7 @@ public class Vec3D {
 	 *            scale factor for Z coordinate
 	 * @return new vector
 	 */
-	public Vec3D scale(float a, float b, float c) {
+	public final Vec3D scale(float a, float b, float c) {
 		return new Vec3D(x * a, y * b, z * c);
 	}
 
@@ -448,7 +448,7 @@ public class Vec3D {
 	 *            scale vector
 	 * @return new vector
 	 */
-	public Vec3D scale(Vec3D s) {
+	public final Vec3D scale(Vec3D s) {
 		return new Vec3D(x * s.x, y * s.y, z * s.z);
 	}
 
@@ -461,7 +461,7 @@ public class Vec3D {
 	 * @return itself
 	 */
 
-	public Vec3D scaleSelf(Vec3D s) {
+	public final Vec3D scaleSelf(Vec3D s) {
 		x *= s.x;
 		y *= s.y;
 		z *= s.z;
@@ -475,7 +475,7 @@ public class Vec3D {
 	 *            scale factor
 	 * @return itself
 	 */
-	public Vec3D scaleSelf(float s) {
+	public final Vec3D scaleSelf(float s) {
 		x *= s;
 		y *= s;
 		z *= s;
@@ -494,7 +494,7 @@ public class Vec3D {
 	 *            scale factor for Z coordinate
 	 * @return itself
 	 */
-	public Vec3D scaleSelf(float a, float b, float c) {
+	public final Vec3D scaleSelf(float a, float b, float c) {
 		x *= a;
 		y *= b;
 		z *= c;
@@ -606,7 +606,7 @@ public class Vec3D {
 	 *            interpolation factor (should be in the range 0..1)
 	 * @return result as new vector
 	 */
-	public Vec3D interpolateTo(Vec3D v, float f) {
+	public final Vec3D interpolateTo(Vec3D v, float f) {
 		return new Vec3D(x + (v.x - x) * f, y + (v.y - y) * f, z + (v.z - z)
 				* f);
 	}
@@ -638,7 +638,7 @@ public class Vec3D {
 	 *            interpolation factor (should be in the range 0..1)
 	 * @return itself, result overrides current vector
 	 */
-	public Vec3D interpolateToSelf(Vec3D v, float f) {
+	public final Vec3D interpolateToSelf(Vec3D v, float f) {
 		x += (v.x - x) * f;
 		y += (v.y - y) * f;
 		z += (v.z - z) * f;
