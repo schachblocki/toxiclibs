@@ -20,6 +20,8 @@
 
 package toxi.geom;
 
+import java.util.Random;
+
 import toxi.math.MathUtils;
 import toxi.math.InterpolateStrategy;
 
@@ -159,8 +161,8 @@ public class Vec3D {
 	 * @return true, if vector = {0,0,0}
 	 */
 	public final boolean isZeroVector() {
-		return x==0 && y==0 && z==0;
-		//return magnitude()<FastMath.EPS;
+		return x == 0 && y == 0 && z == 0;
+		// return magnitude()<FastMath.EPS;
 	}
 
 	/**
@@ -237,9 +239,10 @@ public class Vec3D {
 	 * @return fitted vector
 	 */
 	public final Vec3D getConstrained(AABB box) {
-		return new Vec3D(MathUtils.max(MathUtils.min(x, box.maxX()), box.minX()),
-				MathUtils.max(MathUtils.min(y, box.maxY()), box.minY()), MathUtils
-						.max(MathUtils.min(z, box.maxZ()), box.minZ()));
+		return new Vec3D(MathUtils
+				.max(MathUtils.min(x, box.maxX()), box.minX()), MathUtils.max(
+				MathUtils.min(y, box.maxY()), box.minY()), MathUtils.max(
+				MathUtils.min(z, box.maxZ()), box.minZ()));
 	}
 
 	/**
@@ -1130,7 +1133,8 @@ public class Vec3D {
 	}
 
 	/**
-	 * Factory method.
+	 * Static factory method. Creates a new random unit vector using the default
+	 * Math.random() Random instance.
 	 * 
 	 * @return a new random normalized unit vector.
 	 */
@@ -1140,14 +1144,55 @@ public class Vec3D {
 		return rnd.normalize();
 	}
 
+	/**
+	 * Static factory method. Creates a new random unit vector using the given
+	 * Random generator instance. I recommend to have a look at the
+	 * https://uncommons-maths.dev.java.net library for a good choice of
+	 * reliable and high quality random number generators.
+	 * 
+	 * @return a new random normalized unit vector.
+	 */
+	public static final Vec3D randomVector(Random rnd) {
+		Vec3D v = new Vec3D(rnd.nextFloat() * 2 - 1, rnd.nextFloat() * 2 - 1,
+				rnd.nextFloat() * 2 - 1);
+		return v.normalize();
+	}
+
+	/**
+	 * Creates a new vector from the given angle in the XY plane. The Z
+	 * component of the vector will be zero.
+	 * 
+	 * The resulting vector for theta=0 is equal to the positive X axis.
+	 * 
+	 * @param theta
+	 * @return
+	 */
 	public static final Vec3D fromXYTheta(float theta) {
 		return new Vec3D((float) Math.cos(theta), (float) Math.sin(theta), 0);
 	}
 
+	/**
+	 * Creates a new vector from the given angle in the XZ plane. The Y
+	 * component of the vector will be zero.
+	 * 
+	 * The resulting vector for theta=0 is equal to the positive X axis.
+	 * 
+	 * @param theta
+	 * @return
+	 */
 	public static final Vec3D fromXZTheta(float theta) {
 		return new Vec3D((float) Math.cos(theta), 0, (float) Math.sin(theta));
 	}
 
+	/**
+	 * Creates a new vector from the given angle in the YZ plane. The X
+	 * component of the vector will be zero.
+	 * 
+	 * The resulting vector for theta=0 is equal to the positive Y axis.
+	 * 
+	 * @param theta
+	 * @return
+	 */
 	public static final Vec3D fromYZTheta(float theta) {
 		return new Vec3D(0, (float) Math.cos(theta), (float) Math.sin(theta));
 	}
