@@ -527,6 +527,54 @@ public class Vec3D {
 	}
 
 	/**
+	 * Creates a new vector whose components are the integer value of their
+	 * current values
+	 * 
+	 * @return result as new vector
+	 */
+	public final Vec3D getFloored() {
+		return new Vec3D((float) Math.floor(x), (float) Math.floor(y),
+				(float) Math.floor(z));
+	}
+
+	/**
+	 * Replaces the vector components with integer values of their current
+	 * values
+	 * 
+	 * @return itself
+	 */
+	public final Vec3D floor() {
+		x = (float) Math.floor(x);
+		y = (float) Math.floor(y);
+		z = (float) Math.floor(z);
+		return this;
+	}
+
+	/**
+	 * Creates a new vector whose components are the fractional part of their
+	 * current values
+	 * 
+	 * @return result as new vector
+	 */
+	public final Vec3D getFrac() {
+		return new Vec3D((float) (x - Math.floor(x)), (float) (y - Math
+				.floor(y)), (float) (z - Math.floor(z)));
+	}
+
+	/**
+	 * Replaces the vector components with the fractional part of their current
+	 * values
+	 * 
+	 * @return itself
+	 */
+	public final Vec3D frac() {
+		x = (float) (x - Math.floor(x));
+		y = (float) (y - Math.floor(y));
+		z = (float) (z - Math.floor(z));
+		return this;
+	}
+
+	/**
 	 * Calculates cross-product with vector v. The resulting vector is
 	 * perpendicular to both the current and supplied vector.
 	 * 
