@@ -780,6 +780,76 @@ public class Vec3D {
 	}
 
 	/**
+	 * Rotates the vector by the given angle around the X axis.
+	 * 
+	 * @param theta
+	 * @return itself
+	 */
+	public final Vec3D rotateX(float theta) {
+		float co = (float) Math.cos(theta);
+		float si = (float) Math.sin(theta);
+		float yy = co * z - si * y;
+		z = si * z + co * y;
+		y = yy;
+		return this;
+	}
+
+	/**
+	 * Creates a new vector rotated by the given angle around the X axis.
+	 * @param theta
+	 * @return rotated vector
+	 */
+	public final Vec3D getRotatedX(float theta) {
+		return new Vec3D(this).rotateX(theta);
+	}
+	
+	/**
+	 * Rotates the vector by the given angle around the Y axis.
+	 * @param theta
+	 * @return itself
+	 */
+	public final Vec3D rotateY(float theta) {
+		float co = (float) Math.cos(theta);
+		float si = (float) Math.sin(theta);
+		float xx = co * x - si * z;
+		z = si * x + co * z;
+		x = xx;
+		return this;
+	}
+
+	/**
+	 * Creates a new vector rotated by the given angle around the Y axis.
+	 * @param theta
+	 * @return rotated vector
+	 */
+	public final Vec3D getRotatedY(float theta) {
+		return new Vec3D(this).rotateY(theta);
+	}
+	
+	/**
+	 * Rotates the vector by the given angle around the Z axis.
+	 * @param theta
+	 * @return itself
+	 */
+	public final Vec3D rotateZ(float theta) {
+		float co = (float) Math.cos(theta);
+		float si = (float) Math.sin(theta);
+		float xx = co * x - si * y;
+		y = si * x + co * y;
+		x = xx;
+		return this;
+	}
+
+	/**
+	 * Creates a new vector rotated by the given angle around the Z axis.
+	 * @param theta
+	 * @return rotated vector
+	 */
+	public final Vec3D getRotatedZ(float theta) {
+		return new Vec3D(this).rotateZ(theta);
+	}
+	
+	/**
 	 * Rotates the vector around the giving axis
 	 * 
 	 * @param axis
