@@ -19,6 +19,8 @@
  */
 package toxi.math;
 
+import java.util.Random;
+
 public class MathUtils {
 
 	public static final float PI = 3.14159265358979323846f;
@@ -47,6 +49,22 @@ public class MathUtils {
 
 	public static final int random(int min, int max) {
 		return (int) (Math.random() * (max - min)) + min;
+	}
+
+	public static final float random(Random rnd, float max) {
+		return (float) rnd.nextDouble() * max;
+	}
+
+	public static final float random(Random rnd, float min, float max) {
+		return (float) rnd.nextDouble() * (max - min) + min;
+	}
+
+	public static final int random(Random rnd, int max) {
+		return (int) (rnd.nextDouble() * max);
+	}
+
+	public static final int random(Random rnd, int min, int max) {
+		return (int) (rnd.nextDouble() * (max - min)) + min;
 	}
 
 	public static final int abs(int x) {
