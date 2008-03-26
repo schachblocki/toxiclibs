@@ -29,43 +29,41 @@ public class SinCosLUT {
 	public static final float SC_INV_PREC = 1.0f / SC_PRECISION;
 
 	// compute required table length
-	public static final int SC_PERIOD = (int) (360f * SC_INV_PREC);
+	public  static final int SC_PERIOD = (int) (360f * SC_INV_PREC);
 
 	public static final float[] sinLUT = new float[SC_PERIOD];
 
 	public static final float[] cosLUT = new float[SC_PERIOD];
 
-	public static final float DEG_TO_RAD = (float) (Math.PI / 180.0);
+	public static final float DEG_TO_RAD = (float) (Math.PI / 180.0)
+			* SC_PRECISION;
 
-	public static final float RAD_TO_DEG = (float) (180.0 / Math.PI);
+	public static final float RAD_TO_DEG = (float) (180.0 / Math.PI)
+			/ SC_PRECISION;
 
 	// init sin/cos tables with values
-	// should be called from setup()
 	static {
 		for (int i = 0; i < SC_PERIOD; i++) {
-			sinLUT[i] = (float) Math.sin(i * DEG_TO_RAD * SC_PRECISION);
-			cosLUT[i] = (float) Math.cos(i * DEG_TO_RAD * SC_PRECISION);
+			sinLUT[i] = (float) Math.sin(i * DEG_TO_RAD);
+			cosLUT[i] = (float) Math.cos(i * DEG_TO_RAD);
 		}
 	}
 
 	public static final float sin(float radians) {
-		if (radians >= 0) {
-			int idx = (int) (radians * RAD_TO_DEG * SC_PRECISION);
-			idx %= SC_PERIOD;
-			return sinLUT[idx];
+		while (radians < 0) {
+			radians += MathUtils.TWO_PI;
 		}
-		// FIXME add support for negative inputs
-		// FIXME add LERP for fractional index values
-		return 0;
+		int idx = (int) (radians * RAD_TO_DEG);
+		idx %= SC_PERIOD;
+		return sinLUT[idx];
 	}
-	
+
 	public static final float cos(float radians) {
-		if (radians >= 0) {
-			int idx = (int) (radians * RAD_TO_DEG * SC_PRECISION);
-			idx %= SC_PERIOD;
-			return cosLUT[idx];
+		while (radians < 0) {
+			radians += MathUtils.TWO_PI;
 		}
-		// FIXME add support for negative inputs
-		return 0;
+		int idx = (int) (radians * RAD_TO_DEG);
+		idx %= SC_PERIOD;
+		return cosLUT[idx];
 	}
 }
