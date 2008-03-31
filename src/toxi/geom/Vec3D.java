@@ -573,7 +573,49 @@ public class Vec3D {
 		z = (float) (z - Math.floor(z));
 		return this;
 	}
+	
+	/**
+	 * Constructs a new vector consisting of the smallest components of both vectors.
+	 * @param v comparing vector
+	 * @return result as new vector
+	 */
+	public final Vec3D min(Vec3D v) {
+		return new Vec3D(MathUtils.min(x,v.x),MathUtils.min(y, v.y), MathUtils.min(z,v.z));
+	}
 
+	/**
+	 * Adjusts the vector components to the minimum values of both vectors
+	 * @param v
+	 * @return itself
+	 */
+	public final Vec3D minSelf(Vec3D v) {
+		x=MathUtils.min(x,v.x);
+		y=MathUtils.min(y, v.y);
+		z=MathUtils.min(z,v.z);
+		return this;
+	}
+
+	/**
+	 * Constructs a new vector consisting of the largest components of both vectors.
+	 * @param v
+	 * @return result as new vector
+	 */
+	public final Vec3D max(Vec3D v) {
+		return new Vec3D(MathUtils.max(x,v.x),MathUtils.max(y, v.y), MathUtils.max(z,v.z));
+	}
+	
+	/**
+	 * Adjusts the vector components to the maximum values of both vectors
+	 * @param v
+	 * @return itself
+	 */
+	public final Vec3D maxSelf(Vec3D v) {
+		x=MathUtils.max(x,v.x);
+		y=MathUtils.max(y, v.y);
+		z=MathUtils.max(z,v.z);
+		return this;
+	}
+	
 	/**
 	 * Calculates cross-product with vector v. The resulting vector is
 	 * perpendicular to both the current and supplied vector.
