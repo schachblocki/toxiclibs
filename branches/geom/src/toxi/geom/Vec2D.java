@@ -20,6 +20,7 @@
 
 package toxi.geom;
 
+import java.awt.Rectangle;
 import java.util.Random;
 
 import toxi.math.MathUtils;
@@ -55,7 +56,7 @@ public class Vec2D {
 	public float y;
 
 	/**
-	 * Creates a new zero vect `or
+	 * Creates a new zero vector
 	 */
 	public Vec2D() {
 		x = y = 0;
@@ -189,30 +190,28 @@ public class Vec2D {
 	}
 
 	/**
-	 * Forcefully fits the vector in the given AABB.
+	 * Forcefully fits the vector in the given rectangle.
 	 * 
-	 * @param box
+	 * @param r
 	 * @return itself
 	 */
 
-	// FIXME don't use AABB, but Rectangle
-	public final Vec2D constrain(AABB box) {
-		x = MathUtils.max(MathUtils.min(x, box.maxX()), box.minX());
-		y = MathUtils.max(MathUtils.min(y, box.maxY()), box.minY());
+	public final Vec2D constrain(Rectangle r) {
+		x = MathUtils.max(MathUtils.min(x, r.x+r.width), r.x);
+		y = MathUtils.max(MathUtils.min(y, r.y+r.height), r.y);
 		return this;
 	}
 
 	/**
-	 * Creates a copy of the vector which forcefully fits in the given AABB.
+	 * Creates a copy of the vector which forcefully fits in the given rectangle.
 	 * 
-	 * @param box
+	 * @param r
 	 * @return fitted vector
 	 */
-	// FIXME don't use AABB, but Rectangle
-	public final Vec2D getConstrained(AABB box) {
+	public final Vec2D getConstrained(Rectangle r) {
 		return new Vec2D(MathUtils
-				.max(MathUtils.min(x, box.maxX()), box.minX()), MathUtils.max(
-				MathUtils.min(y, box.maxY()), box.minY()));
+				.max(MathUtils.min(x, r.x+r.width), r.x), MathUtils.max(
+				MathUtils.min(y, r.y+r.height), r.y));
 	}
 
 	/**
@@ -856,36 +855,19 @@ public class Vec2D {
 	}
 
 	/**
-	 * Checks if the point is inside the given axis-aligned bounding box.
+	 * Checks if the point is inside the given rectangle.
 	 * 
-	 * @param bO
-	 *            bounding box origin/center
-	 * @param bDim
-	 *            bounding box extends (half measure)
-	 * @return true, if point is inside the box
+	 * @param r
+	 *            bounding rectangle
+	 * @return true, if point is inside
 	 */
-	// FIXME replace AABB with Rectangle
-	public boolean isInAABB(Vec2D bO, Vec2D bDim) {
-		float w = bDim.x;
-		if (x < bO.x - w || x > bO.x + w)
+	public boolean isInRecangle(Rectangle r) {
+		if (x < r.x || x > r.x + r.width)
 			return false;
-		w = bDim.y;
-		if (y < bO.y - w || y > bO.y + w)
+		if (y < r.y || y > r.y + r.height)
 			return false;
 		return true;
 	}
-
-	/**
-	 * Checks if the point is inside the given AABB.
-	 * 
-	 * @param box
-	 *            bounding box to check
-	 * @return true, if point is inside
-	 */
-	// FIXME replace AABB with Rectangle
-	/*
-	 * public boolean isInAABB(AABB box) { return isInAABB(box, box.extend); }
-	 */
 
 	/**
 	 * Calculates the normal vector on the given ellipse in the direction of the
