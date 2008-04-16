@@ -1,0 +1,2 @@
+* added Plane class
+* moved classifyPoint() from Vec3D to Plane class
