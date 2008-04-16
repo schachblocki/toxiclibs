@@ -50,21 +50,6 @@ public class Vec3D {
 	public static final Vec3D Z_AXIS = new Vec3D(0, 0, 1);
 
 	/**
-	 * Classifier constant for {@link #classifyPoint(Vec3D, Vec3D)}
-	 */
-	public static final int PLANE_FRONT = -1;
-
-	/**
-	 * Classifier constant for {@link #classifyPoint(Vec3D, Vec3D)}
-	 */
-	public static final int PLANE_BACK = 1;
-
-	/**
-	 * Classifier constant for {@link #classifyPoint(Vec3D, Vec3D)}
-	 */
-	public static final int ON_PLANE = 0;
-
-	/**
 	 * X coordinate
 	 */
 	public float x;
@@ -573,49 +558,58 @@ public class Vec3D {
 		z = (float) (z - Math.floor(z));
 		return this;
 	}
-	
+
 	/**
-	 * Constructs a new vector consisting of the smallest components of both vectors.
-	 * @param v comparing vector
+	 * Constructs a new vector consisting of the smallest components of both
+	 * vectors.
+	 * 
+	 * @param v
+	 *            comparing vector
 	 * @return result as new vector
 	 */
 	public final Vec3D min(Vec3D v) {
-		return new Vec3D(MathUtils.min(x,v.x),MathUtils.min(y, v.y), MathUtils.min(z,v.z));
+		return new Vec3D(MathUtils.min(x, v.x), MathUtils.min(y, v.y),
+				MathUtils.min(z, v.z));
 	}
 
 	/**
 	 * Adjusts the vector components to the minimum values of both vectors
+	 * 
 	 * @param v
 	 * @return itself
 	 */
 	public final Vec3D minSelf(Vec3D v) {
-		x=MathUtils.min(x,v.x);
-		y=MathUtils.min(y, v.y);
-		z=MathUtils.min(z,v.z);
+		x = MathUtils.min(x, v.x);
+		y = MathUtils.min(y, v.y);
+		z = MathUtils.min(z, v.z);
 		return this;
 	}
 
 	/**
-	 * Constructs a new vector consisting of the largest components of both vectors.
+	 * Constructs a new vector consisting of the largest components of both
+	 * vectors.
+	 * 
 	 * @param v
 	 * @return result as new vector
 	 */
 	public final Vec3D max(Vec3D v) {
-		return new Vec3D(MathUtils.max(x,v.x),MathUtils.max(y, v.y), MathUtils.max(z,v.z));
+		return new Vec3D(MathUtils.max(x, v.x), MathUtils.max(y, v.y),
+				MathUtils.max(z, v.z));
 	}
-	
+
 	/**
 	 * Adjusts the vector components to the maximum values of both vectors
+	 * 
 	 * @param v
 	 * @return itself
 	 */
 	public final Vec3D maxSelf(Vec3D v) {
-		x=MathUtils.max(x,v.x);
-		y=MathUtils.max(y, v.y);
-		z=MathUtils.max(z,v.z);
+		x = MathUtils.max(x, v.x);
+		y = MathUtils.max(y, v.y);
+		z = MathUtils.max(z, v.z);
 		return this;
 	}
-	
+
 	/**
 	 * Calculates cross-product with vector v. The resulting vector is
 	 * perpendicular to both the current and supplied vector.
@@ -838,15 +832,17 @@ public class Vec3D {
 
 	/**
 	 * Creates a new vector rotated by the given angle around the X axis.
+	 * 
 	 * @param theta
 	 * @return rotated vector
 	 */
 	public final Vec3D getRotatedX(float theta) {
 		return new Vec3D(this).rotateX(theta);
 	}
-	
+
 	/**
 	 * Rotates the vector by the given angle around the Y axis.
+	 * 
 	 * @param theta
 	 * @return itself
 	 */
@@ -861,15 +857,17 @@ public class Vec3D {
 
 	/**
 	 * Creates a new vector rotated by the given angle around the Y axis.
+	 * 
 	 * @param theta
 	 * @return rotated vector
 	 */
 	public final Vec3D getRotatedY(float theta) {
 		return new Vec3D(this).rotateY(theta);
 	}
-	
+
 	/**
 	 * Rotates the vector by the given angle around the Z axis.
+	 * 
 	 * @param theta
 	 * @return itself
 	 */
@@ -884,13 +882,14 @@ public class Vec3D {
 
 	/**
 	 * Creates a new vector rotated by the given angle around the Z axis.
+	 * 
 	 * @param theta
 	 * @return rotated vector
 	 */
 	public final Vec3D getRotatedZ(float theta) {
 		return new Vec3D(this).rotateZ(theta);
 	}
-	
+
 	/**
 	 * Rotates the vector around the giving axis
 	 * 
@@ -942,6 +941,8 @@ public class Vec3D {
 	 * @param planeNormal
 	 * @return distance to plane in world units, -1 if no intersection.
 	 */
+	// FIXME this is kind of obsolete since the arrival of the Plane class, but
+	// needs amends to reflector code
 	public float intersectRayPlane(Vec3D rayDir, Vec3D planeOrigin,
 			Vec3D planeNormal) {
 		float d = -planeNormal.dot(planeOrigin);
@@ -967,6 +968,7 @@ public class Vec3D {
 	 * @return distance to sphere in world units, -1 if no intersection.
 	 */
 
+	// FIXME this really should be part of either Sphere or SphereIntersectorReflector
 	public float intersectRaySphere(Vec3D rayDir, Vec3D sphereOrigin,
 			float sphereRadius) {
 		Vec3D q = sphereOrigin.sub(this);
@@ -991,7 +993,7 @@ public class Vec3D {
 	 * 
 	 * @return true, if point is in triangle.
 	 */
-
+	// FIXME move to Traingle class once created
 	public boolean isInTriangle(Vec3D a, Vec3D b, Vec3D c) {
 		Vec3D v1 = sub(a).normalize();
 		Vec3D v2 = sub(b).normalize();
@@ -1082,7 +1084,7 @@ public class Vec3D {
 	 *            sphere radius
 	 * @return true, if point is in sphere
 	 */
-
+	// FIXME move to Sphere
 	public boolean isInSphere(Vec3D sO, float sR) {
 		float d = this.sub(sO).magSquared();
 		return (d <= sR * sR);
@@ -1095,6 +1097,7 @@ public class Vec3D {
 	 *            bounding sphere to check
 	 * @return true, if point is inside
 	 */
+	// FIXME move to Sphere
 	public boolean isInSphere(Sphere s) {
 		float d = this.sub(s).magSquared();
 		return (d <= s.radius * s.radius);
@@ -1109,6 +1112,7 @@ public class Vec3D {
 	 *            bounding box extends (half measure)
 	 * @return true, if point is inside the box
 	 */
+	
 	public boolean isInAABB(Vec3D bO, Vec3D bDim) {
 		float w = bDim.x;
 		if (x < bO.x - w || x > bO.x + w)
@@ -1153,28 +1157,6 @@ public class Vec3D {
 		float zr2 = eR.z * eR.z;
 
 		return new Vec3D(p.x / xr2, p.y / yr2, p.z / zr2).normalize();
-	}
-
-	/**
-	 * Checks and classifies the relative position of the point to the given
-	 * plane.
-	 * 
-	 * @param pO
-	 *            plane origin
-	 * @param pN
-	 *            plane normal vector
-	 * @return One of the 3 classification codes: PLANE_FRONT, PLANE_BACK,
-	 *         ON_PLANE
-	 */
-	public int classifyPoint(Vec3D pO, Vec3D pN) {
-		Vec3D dir = pO.sub(this);
-		float d = dir.dot(pN);
-		if (d < -MathUtils.EPS)
-			return PLANE_FRONT;
-		else if (d > MathUtils.EPS)
-			return PLANE_BACK;
-
-		return ON_PLANE;
 	}
 
 	/**
