@@ -35,9 +35,9 @@ public class AABB extends Vec3D {
 	}
 
 	public AABB(AABB box) {
-		this(box,box.extend);
+		this(box, box.extend);
 	}
-	
+
 	public final float minX() {
 		return x - extend.x;
 	}
@@ -60,6 +60,14 @@ public class AABB extends Vec3D {
 
 	public final float maxZ() {
 		return z + extend.z;
+	}
+
+	public final Vec3D getMin() {
+		return new Vec3D(x - extend.x, y - extend.y, z - extend.z);
+	}
+
+	public final Vec3D getMax() {
+		return new Vec3D(x + extend.x, y + extend.y, z + extend.z);
 	}
 
 	/**
@@ -114,10 +122,67 @@ public class AABB extends Vec3D {
 				&& MathUtils.abs(t.y) <= (extend.y + b.extend.y)
 				&& MathUtils.abs(t.z) <= (extend.z + b.extend.z);
 	}
-	
+
+	/**
+	 * Calculates intersection with the given ray between a certain distance
+	 * interval.
+	 * 
+	 * @param ray
+	 *            incident ray
+	 * @param minDir
+	 * @param maxDir
+	 * @return intersection point on the bounding box (only the first is
+	 *         returned) or null if no intersection
+	 */
+	public Vec3D intersectsRay(Ray3D ray, float minDir, float maxDir) {
+		Vec3D invDir = new Vec3D(1 / ray.dir.x, 1 / ray.dir.y, 1 / ray.dir.z);
+		boolean signDirX = invDir.x < 0;
+		boolean signDirY = invDir.y < 0;
+		boolean signDirZ = invDir.z < 0;
+		Vec3D min = getMin();
+		Vec3D max = getMax();
+		Vec3D bbox = signDirX ? max : min;
+		float tmin = (bbox.x - ray.x) * invDir.x;
+		bbox = signDirX ? min : max;
+		float tmax = (bbox.x - ray.x) * invDir.x;
+		bbox = signDirY ? max : min;
+		float tymin = (bbox.y - ray.y) * invDir.y;
+		bbox = signDirY ? min : max;
+		float tymax = (bbox.y - ray.y) * invDir.y;
+
+		if ((tmin > tymax) || (tymin > tmax))
+			return null;
+		if (tymin > tmin)
+			tmin = tymin;
+		if (tymax < tmax)
+			tmax = tymax;
+
+		bbox = signDirZ ? max : min;
+		float tzmin = (bbox.z - ray.z) * invDir.z;
+		bbox = signDirZ ? min : max;
+		float tzmax = (bbox.z - ray.z) * invDir.z;
+
+		if ((tmin > tzmax) || (tzmin > tmax))
+			return null;
+		if (tzmin > tmin)
+			tmin = tzmin;
+		if (tzmax < tmax)
+			tmax = tzmax;
+		if ((tmin < maxDir) && (tmax > minDir)) {
+			return ray.getPointAtDistance(tmin);
+		}
+		return null;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see toxi.geom.Vec3D#toString()
+	 */
 	public String toString() {
-		StringBuffer sb=new StringBuffer();
-		sb.append("<aabb> pos: ").append(super.toString()).append(" ext: ").append(extend);
+		StringBuffer sb = new StringBuffer();
+		sb.append("<aabb> pos: ").append(super.toString()).append(" ext: ")
+				.append(extend);
 		return sb.toString();
 	}
 }
