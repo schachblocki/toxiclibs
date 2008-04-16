@@ -968,7 +968,8 @@ public class Vec3D {
 	 * @return distance to sphere in world units, -1 if no intersection.
 	 */
 
-	// FIXME this really should be part of either Sphere or SphereIntersectorReflector
+	// FIXME this really should be part of either Sphere or
+	// SphereIntersectorReflector
 	public float intersectRaySphere(Vec3D rayDir, Vec3D sphereOrigin,
 			float sphereRadius) {
 		Vec3D q = sphereOrigin.sub(this);
@@ -1112,7 +1113,7 @@ public class Vec3D {
 	 *            bounding box extends (half measure)
 	 * @return true, if point is inside the box
 	 */
-	
+
 	public boolean isInAABB(Vec3D bO, Vec3D bDim) {
 		float w = bDim.x;
 		if (x < bO.x - w || x > bO.x + w)
@@ -1337,5 +1338,16 @@ public class Vec3D {
 	 */
 	public static final Vec3D fromYZTheta(float theta) {
 		return new Vec3D(0, (float) Math.cos(theta), (float) Math.sin(theta));
+	}
+
+	public Vec3D sign() {
+		x = (x < 0 ? -1 : x == 0 ? 0 : 1);
+		y = (y < 0 ? -1 : y == 0 ? 0 : 1);
+		z = (z < 0 ? -1 : z == 0 ? 0 : 1);
+		return this;
+	}
+	
+	public Vec3D getSigned() {
+		return new Vec3D(this).sign();
 	}
 }
