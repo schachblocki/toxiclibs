@@ -32,9 +32,9 @@ public class Plane extends Vec3D {
 
 	public Vec3D normal;
 
-	Plane(Vec3D origin, Vec3D norm) {
+	public Plane(Vec3D origin, Vec3D norm) {
 		super(origin);
-		normal = new Vec3D(norm);
+		normal = norm.getNormalized();
 	}
 
 	// TODO add constructor for creating a plane from a Triangle or 3 Vec3D's
@@ -45,7 +45,7 @@ public class Plane extends Vec3D {
 	 * @param p
 	 * @return distance
 	 */
-	float getDistanceToPoint(Vec3D p) {
+	public float getDistanceToPoint(Vec3D p) {
 		float sn = -normal.dot(p.sub(this));
 		float sd = normal.magSquared();
 		Vec3D isec = p.add(normal.scale(sn / sd));
@@ -58,7 +58,7 @@ public class Plane extends Vec3D {
 	 * @param r
 	 * @return intersection point or null if ray doesn't intersect plane
 	 */
-	Vec3D getIntersectionWithRay(Ray3D r) {
+	public Vec3D getIntersectionWithRay(Ray3D r) {
 		float denom = normal.dot(r.getDirection());
 		if (denom > MathUtils.EPS) {
 			float u = normal.dot(this.sub(r)) / denom;
@@ -86,5 +86,11 @@ public class Plane extends Vec3D {
 			return PLANE_BACK;
 
 		return ON_PLANE;
+	}
+	
+	public String toString() {
+		StringBuffer sb=new StringBuffer();
+		sb.append("origin: ").append(super.toString()).append(" norm: ").append(normal.toString());
+		return sb.toString();
 	}
 }
