@@ -35,9 +35,10 @@ public class STLWriter {
 
 	protected byte[] buf = new byte[4];
 
-	protected STLColourModel colourModel = DEFAULT;
+	protected STLColourModel colourModel;
 
 	public STLWriter() {
+		this(DEFAULT);
 	}
 
 	public STLWriter(STLColourModel cm) {
@@ -102,6 +103,7 @@ public class STLWriter {
 
 	protected void writeHeader(int num) throws IOException {
 		byte[] header = new byte[80];
+		colourModel.formatHeader(header);
 		ds.write(header, 0, 80);
 		writeInt(num);
 	}
