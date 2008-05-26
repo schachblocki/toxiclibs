@@ -186,6 +186,7 @@ public class SimplexNoise {
 	 *            coordinate
 	 * @return noise value in range -1 ... +1.
 	 */
+	// FIXME this seems to be semi-broken currently?? Strange artefacts appearing
 	public static double noise(double x, double y) {
 		double n0, n1, n2; // Noise contributions from the three corners
 		// Skew the input space to determine which simplex cell we're in
@@ -407,6 +408,7 @@ public class SimplexNoise {
 	 *            coordinate
 	 * @return noise value in range -1 ... +1
 	 */
+	// FIXME this seems to be semi-broken currently?? Strange artefacts appearing
 	public static double noise(double x, double y, double z, double w) {
 		double n0, n1, n2, n3, n4; // Noise contributions from the five corners
 		// Skew the (x,y,z,w) space to determine which cell of 24 simplices
