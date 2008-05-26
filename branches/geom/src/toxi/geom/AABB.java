@@ -23,51 +23,72 @@ package toxi.geom;
 import toxi.math.MathUtils;
 
 /**
- * Axis-aligned bounding box
+ * Axis-aligned bounding box with basic intersection features for Ray, AABB and
+ * Sphere classes.
  */
 public class AABB extends Vec3D {
 
-	public Vec3D extend;
+	private Vec3D extend;
+
+	private Vec3D min, max;
+
+	/**
+	 * 
+	 * @param min
+	 * @param max
+	 * @return
+	 */
+	public static final AABB fromMinMax(Vec3D min, Vec3D max) {
+		Vec3D a=Vec3D.min(min,max);
+		Vec3D b=Vec3D.max(min,max);
+		return new AABB(a.interpolateTo(b, 0.5f), b.sub(a).scaleSelf(0.5f));
+	}
 
 	public AABB(Vec3D pos, Vec3D extend) {
 		super(pos);
-		this.extend = extend;
+		setExtend(extend);
 	}
 
 	public AABB(AABB box) {
 		this(box, box.extend);
 	}
 
+	public void setExtend(Vec3D extend) {
+		this.extend = new Vec3D(extend);
+		this.min = this.sub(extend);
+		this.max = this.add(extend);
+	}
+
 	public final float minX() {
-		return x - extend.x;
+		return min.x;
 	}
 
 	public final float maxX() {
-		return x + extend.x;
+		return max.x;
 	}
 
 	public final float minY() {
-		return y - extend.y;
+		return min.y;
 	}
 
 	public final float maxY() {
-		return y + extend.y;
+		return max.y;
 	}
 
 	public final float minZ() {
-		return z - extend.z;
+		return min.z;
 	}
 
 	public final float maxZ() {
-		return z + extend.z;
+		return max.z;
 	}
 
 	public final Vec3D getMin() {
-		return new Vec3D(x - extend.x, y - extend.y, z - extend.z);
+		return new Vec3D(min);
 	}
 
 	public final Vec3D getMax() {
-		return new Vec3D(x + extend.x, y + extend.y, z + extend.z);
+		return new Vec3D(max);
 	}
 
 	/**
@@ -81,27 +102,27 @@ public class AABB extends Vec3D {
 		float s, d = 0;
 		// find the square of the distance
 		// from the sphere to the box
-		if (c.x < minX()) {
-			s = c.x - minX();
+		if (c.x < min.x) {
+			s = c.x - min.x;
 			d += s * s;
-		} else if (c.x > maxX()) {
-			s = c.x - maxX();
-			d += s * s;
-		}
-
-		if (c.y < minY()) {
-			s = c.y - minY();
-			d += s * s;
-		} else if (c.y > maxY()) {
-			s = c.y - maxY();
+		} else if (c.x > max.x) {
+			s = c.x - max.x;
 			d += s * s;
 		}
 
-		if (c.z < minZ()) {
-			s = c.z - minZ();
+		if (c.y < min.y) {
+			s = c.y - min.y;
 			d += s * s;
-		} else if (c.z > maxZ()) {
-			s = c.z - maxZ();
+		} else if (c.y > max.y) {
+			s = c.y - max.y;
+			d += s * s;
+		}
+
+		if (c.z < min.z) {
+			s = c.z - min.z;
+			d += s * s;
+		} else if (c.z > max.z) {
+			s = c.z - max.z;
 			d += s * s;
 		}
 
@@ -126,6 +147,13 @@ public class AABB extends Vec3D {
 	/**
 	 * Calculates intersection with the given ray between a certain distance
 	 * interval.
+	 * 
+	 * Ray-box intersection is using IEEE numerical properties to ensure the
+	 * test is both robust and efficient, as described in:
+	 * 
+	 * Amy Williams, Steve Barrus, R. Keith Morley, and Peter Shirley: "An
+	 * Efficient and Robust Ray-Box Intersection Algorithm" Journal of graphics
+	 * tools, 10(1):49-54, 2005
 	 * 
 	 * @param ray
 	 *            incident ray

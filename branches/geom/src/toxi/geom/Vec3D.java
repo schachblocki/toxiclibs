@@ -32,7 +32,7 @@ import toxi.math.InterpolateStrategy;
  * @author Karsten Schmidt
  * 
  */
-public class Vec3D {
+public class Vec3D implements Comparable {
 
 	/**
 	 * Defines positive X axis
@@ -518,8 +518,8 @@ public class Vec3D {
 	 * @return result as new vector
 	 */
 	public final Vec3D getFloored() {
-		return new Vec3D((float) Math.floor(x), (float) Math.floor(y),
-				(float) Math.floor(z));
+		return new Vec3D(MathUtils.fastFloor(x), MathUtils.fastFloor(y),
+				MathUtils.fastFloor(z));
 	}
 
 	/**
@@ -529,9 +529,9 @@ public class Vec3D {
 	 * @return itself
 	 */
 	public final Vec3D floor() {
-		x = (float) Math.floor(x);
-		y = (float) Math.floor(y);
-		z = (float) Math.floor(z);
+		x = MathUtils.fastFloor(x);
+		y = MathUtils.fastFloor(y);
+		z = MathUtils.fastFloor(z);
 		return this;
 	}
 
@@ -553,9 +553,39 @@ public class Vec3D {
 	 * @return itself
 	 */
 	public final Vec3D frac() {
-		x = (float) (x - Math.floor(x));
-		y = (float) (y - Math.floor(y));
-		z = (float) (z - Math.floor(z));
+		x -= MathUtils.fastFloor(x);
+		y -= MathUtils.fastFloor(y);
+		z -= MathUtils.fastFloor(z);
+		return this;
+	}
+
+	/**
+	 * Applies a uniform modulo operation to the vector, using the same base for
+	 * all components.
+	 * 
+	 * @param base
+	 * @return itself
+	 */
+	public final Vec3D modSelf(float base) {
+		x %= base;
+		y %= base;
+		z %= base;
+		return this;
+	}
+
+	/**
+	 * Calculates modulo operation for each vector component separately.
+	 * 
+	 * @param bx
+	 * @param by
+	 * @param bz
+	 * @return itself
+	 */
+
+	public final Vec3D modSelf(float bx, float by, float bz) {
+		x %= bx;
+		y %= by;
+		z %= bz;
 		return this;
 	}
 
@@ -563,51 +593,25 @@ public class Vec3D {
 	 * Constructs a new vector consisting of the smallest components of both
 	 * vectors.
 	 * 
-	 * @param v
+	 * @param b
 	 *            comparing vector
 	 * @return result as new vector
 	 */
-	public final Vec3D min(Vec3D v) {
-		return new Vec3D(MathUtils.min(x, v.x), MathUtils.min(y, v.y),
-				MathUtils.min(z, v.z));
-	}
-
-	/**
-	 * Adjusts the vector components to the minimum values of both vectors
-	 * 
-	 * @param v
-	 * @return itself
-	 */
-	public final Vec3D minSelf(Vec3D v) {
-		x = MathUtils.min(x, v.x);
-		y = MathUtils.min(y, v.y);
-		z = MathUtils.min(z, v.z);
-		return this;
+	public static final Vec3D min(Vec3D a, Vec3D b) {
+		return new Vec3D(MathUtils.min(a.x, b.x), MathUtils.min(a.y, b.y),
+				MathUtils.min(a.z, b.z));
 	}
 
 	/**
 	 * Constructs a new vector consisting of the largest components of both
 	 * vectors.
 	 * 
-	 * @param v
+	 * @param b
 	 * @return result as new vector
 	 */
-	public final Vec3D max(Vec3D v) {
-		return new Vec3D(MathUtils.max(x, v.x), MathUtils.max(y, v.y),
-				MathUtils.max(z, v.z));
-	}
-
-	/**
-	 * Adjusts the vector components to the maximum values of both vectors
-	 * 
-	 * @param v
-	 * @return itself
-	 */
-	public final Vec3D maxSelf(Vec3D v) {
-		x = MathUtils.max(x, v.x);
-		y = MathUtils.max(y, v.y);
-		z = MathUtils.max(z, v.z);
-		return this;
+	public static final Vec3D max(Vec3D a, Vec3D b) {
+		return new Vec3D(MathUtils.max(a.x, b.x), MathUtils.max(a.y, b.y),
+				MathUtils.max(a.z, b.z));
 	}
 
 	/**
@@ -986,28 +990,6 @@ public class Vec3D {
 	}
 
 	/**
-	 * Checks if point vector is inside the triangle created by the points a, b
-	 * and c. These points will create a plane and the point checked will have
-	 * to be on this plane in the region between a,b,c.
-	 * 
-	 * Note: The triangle must be defined in clockwise order a,b,c
-	 * 
-	 * @return true, if point is in triangle.
-	 */
-	// FIXME move to Traingle class once created
-	public boolean isInTriangle(Vec3D a, Vec3D b, Vec3D c) {
-		Vec3D v1 = sub(a).normalize();
-		Vec3D v2 = sub(b).normalize();
-		Vec3D v3 = sub(c).normalize();
-
-		float total_angles = (float) Math.acos(v1.dot(v2));
-		total_angles += (float) Math.acos(v2.dot(v3));
-		total_angles += (float) Math.acos(v3.dot(v1));
-
-		return (MathUtils.abs(total_angles - MathUtils.TWO_PI) <= 0.005f);
-	}
-
-	/**
 	 * 
 	 * Helper function for {@link #closestPointOnTriangle(Vec3D, Vec3D, Vec3D)}
 	 * 
@@ -1028,7 +1010,7 @@ public class Vec3D {
 
 		float t = v.dot(c);
 
-		// Check to see if �t� is beyond the extents of the line segment
+		// Check to see if t is beyond the extents of the line segment
 		if (t < 0.0f)
 			return a;
 		if (t > d)
@@ -1039,41 +1021,6 @@ public class Vec3D {
 		v.scale(t);
 
 		return a.add(v);
-	}
-
-	/**
-	 * Finds and returns the closest point on any of the edges of the given
-	 * triangle.
-	 * 
-	 * @param a
-	 *            triangle vertex
-	 * @param b
-	 *            triangle vertex
-	 * @param c
-	 *            triangle vertex
-	 * @return closest point
-	 */
-
-	public Vec3D closestPointOnTriangle(Vec3D a, Vec3D b, Vec3D c) {
-		Vec3D Rab = closestPointOnLine(a, b);
-		Vec3D Rbc = closestPointOnLine(b, c);
-		Vec3D Rca = closestPointOnLine(c, a);
-
-		float dAB = sub(Rab).magnitude();
-		float dBC = sub(Rbc).magnitude();
-		float dCA = sub(Rca).magnitude();
-
-		float min = dAB;
-		Vec3D result = Rab;
-
-		if (dBC < min) {
-			min = dBC;
-			result = Rbc;
-		}
-		if (dCA < min)
-			result = Rca;
-
-		return result;
 	}
 
 	/**
@@ -1135,7 +1082,15 @@ public class Vec3D {
 	 * @return true, if point is inside
 	 */
 	public boolean isInAABB(AABB box) {
-		return isInAABB(box, box.extend);
+		Vec3D min = box.getMin();
+		Vec3D max = box.getMax();
+		if (x < min.x || x > max.x)
+			return false;
+		if (y < min.y || y > max.y)
+			return false;
+		if (z < min.z || z > max.z)
+			return false;
+		return true;
 	}
 
 	/**
@@ -1161,92 +1116,6 @@ public class Vec3D {
 	}
 
 	/**
-	 * Computes the the point closest to the current vector on the surface of
-	 * triangle abc.
-	 * 
-	 * From Real-Time Collision Detection by Christer Ericson, published by
-	 * Morgan Kaufmann Publishers, Copyright 2005 Elsevier Inc
-	 * 
-	 * @param a
-	 *            triangle vertex
-	 * @param b
-	 *            triangle vertex
-	 * @param c
-	 *            triangle vertex
-	 * @return closest point on triangle (result may also be one of a, b or c)
-	 */
-
-	public Vec3D closestPointTriangle(Vec3D a, Vec3D b, Vec3D c) {
-		Vec3D ab = b.sub(a);
-		Vec3D ac = c.sub(a);
-		Vec3D bc = c.sub(b);
-
-		Vec3D pa = this.sub(a);
-		Vec3D pb = this.sub(b);
-		Vec3D pc = this.sub(c);
-
-		// Compute parametric position s for projection P' of P on AB,
-		// P' = A + s*AB, s = snom/(snom+sdenom)
-		float snom = pa.dot(ab);
-		float sdenom = pb.dot(a.sub(b));
-
-		// Compute parametric position t for projection P' of P on AC,
-		// P' = A + t*AC, s = tnom/(tnom+tdenom)
-		float tnom = pa.dot(ac);
-		float tdenom = pc.dot(a.sub(c));
-
-		if (snom <= 0.0f && tnom <= 0.0f)
-			return a; // Vertex region early out
-
-		// Compute parametric position u for projection P' of P on BC,
-		// P' = B + u*BC, u = unom/(unom+udenom)
-		float unom = pb.dot(bc);
-		float udenom = pc.dot(b.sub(c));
-
-		if (sdenom <= 0.0f && unom <= 0.0f)
-			return b; // Vertex region early out
-		if (tdenom <= 0.0f && udenom <= 0.0f)
-			return c; // Vertex region early out
-
-		// P is outside (or on) AB if the triple scalar product [N PA PB] <= 0
-		Vec3D n = ab.cross(ac);
-		float vc = n.dot(a.sub(this).crossSelf(b.sub(this)));
-
-		// If P outside AB and within feature region of AB,
-		// return projection of P onto AB
-		if (vc <= 0.0f && snom >= 0.0f && sdenom >= 0.0f) {
-			// return a + snom / (snom + sdenom) * ab;
-			return a.add(ab.scaleSelf(snom / (snom + sdenom)));
-		}
-
-		// P is outside (or on) BC if the triple scalar product [N PB PC] <= 0
-		float va = n.dot(b.sub(this).crossSelf(c.sub(this)));
-		// If P outside BC and within feature region of BC,
-		// return projection of P onto BC
-		if (va <= 0.0f && unom >= 0.0f && udenom >= 0.0f) {
-			// return b + unom / (unom + udenom) * bc;
-			return b.add(bc.scaleSelf(unom / (unom + udenom)));
-		}
-
-		// P is outside (or on) CA if the triple scalar product [N PC PA] <= 0
-		float vb = n.dot(c.sub(this).crossSelf(a.sub(this)));
-		// If P outside CA and within feature region of CA,
-		// return projection of P onto CA
-		if (vb <= 0.0f && tnom >= 0.0f && tdenom >= 0.0f) {
-			// return a + tnom / (tnom + tdenom) * ac;
-			return a.add(ac.scaleSelf(tnom / (tnom + tdenom)));
-		}
-
-		// P must project inside face region. Compute Q using barycentric
-		// coordinates
-		float u = va / (va + vb + vc);
-		float v = vb / (va + vb + vc);
-		float w = 1.0f - u - v; // = vc / (va + vb + vc)
-		// return u * a + v * b + w * c;
-		return a.scale(u).addSelf(b.scale(v)).addSelf(c.scale(w));
-	}
-
-	/**
 	 * Considers the current vector as centre of a collision sphere with radius
 	 * r and checks if the triangle abc intersects with this sphere. The Vec3D p
 	 * The point on abc closest to the sphere center is returned via the
@@ -1264,15 +1133,16 @@ public class Vec3D {
 	 *            a non-null vector for storing the result
 	 * @return true, if sphere intersects triangle ABC
 	 */
+	// FIXME this needs to be moved out from Vec3D in either
 	public boolean intersectSphereTriangle(float r, Vec3D a, Vec3D b, Vec3D c,
 			Vec3D result) {
 		// Find Vec3D P on triangle ABC closest to sphere center
-		result.set(this.closestPointTriangle(a, b, c));
+		result.set(new Triangle(a, b, c).closestPoint(this));
 
 		// Sphere and triangle intersect if the (squared) distance from sphere
 		// center to Vec3D p is less than the (squared) sphere radius
 		Vec3D v = result.sub(this);
-		return v.x * v.x + v.y * v.y + v.z * v.z <= r * r;
+		return v.magSquared() <= r * r;
 	}
 
 	/**
@@ -1340,14 +1210,40 @@ public class Vec3D {
 		return new Vec3D(0, (float) Math.cos(theta), (float) Math.sin(theta));
 	}
 
-	public Vec3D sign() {
+	/**
+	 * Replaces all vector components with the signum of their original values.
+	 * In other words if a components value was negative its new value will be
+	 * -1, if zero => 0, if positive => +1
+	 * 
+	 * @return itself
+	 */
+	public Vec3D signum() {
 		x = (x < 0 ? -1 : x == 0 ? 0 : 1);
 		y = (y < 0 ? -1 : y == 0 ? 0 : 1);
 		z = (z < 0 ? -1 : z == 0 ? 0 : 1);
 		return this;
 	}
-	
-	public Vec3D getSigned() {
-		return new Vec3D(this).sign();
+
+	/**
+	 * Creates a new vector in which all components are replaced with the signum
+	 * of their original values. In other words if a components value was
+	 * negative its new value will be -1, if zero => 0, if positive => +1
+	 * 
+	 * @return result vector
+	 */
+	public Vec3D getSignum() {
+		return new Vec3D(this).signum();
+	}
+
+	/* (non-Javadoc)
+	 * @see java.lang.Comparable#compareTo(T)
+	 */
+	public int compareTo(Object obj) {
+		Vec3D v = (Vec3D) obj;
+		if (x == v.x && y == v.y && z == v.z)
+			return 0;
+		if (magSquared() < v.magSquared())
+			return -1;
+		return 1;
 	}
 }

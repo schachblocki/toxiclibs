@@ -197,21 +197,21 @@ public class Vec2D {
 	 */
 
 	public final Vec2D constrain(Rectangle r) {
-		x = MathUtils.max(MathUtils.min(x, r.x+r.width), r.x);
-		y = MathUtils.max(MathUtils.min(y, r.y+r.height), r.y);
+		x = MathUtils.max(MathUtils.min(x, r.x + r.width), r.x);
+		y = MathUtils.max(MathUtils.min(y, r.y + r.height), r.y);
 		return this;
 	}
 
 	/**
-	 * Creates a copy of the vector which forcefully fits in the given rectangle.
+	 * Creates a copy of the vector which forcefully fits in the given
+	 * rectangle.
 	 * 
 	 * @param r
 	 * @return fitted vector
 	 */
 	public final Vec2D getConstrained(Rectangle r) {
-		return new Vec2D(MathUtils
-				.max(MathUtils.min(x, r.x+r.width), r.x), MathUtils.max(
-				MathUtils.min(y, r.y+r.height), r.y));
+		return new Vec2D(MathUtils.max(MathUtils.min(x, r.x + r.width), r.x),
+				MathUtils.max(MathUtils.min(y, r.y + r.height), r.y));
 	}
 
 	/**
@@ -480,7 +480,7 @@ public class Vec2D {
 	 * @return result as new vector
 	 */
 	public final Vec2D getFloored() {
-		return new Vec2D((float) Math.floor(x), (float) Math.floor(y));
+		return new Vec2D(MathUtils.fastFloor(x), MathUtils.fastFloor(y));
 	}
 
 	/**
@@ -490,8 +490,8 @@ public class Vec2D {
 	 * @return itself
 	 */
 	public final Vec2D floor() {
-		x = (float) Math.floor(x);
-		y = (float) Math.floor(y);
+		x = MathUtils.fastFloor(x);
+		y = MathUtils.fastFloor(y);
 		return this;
 	}
 
@@ -502,8 +502,7 @@ public class Vec2D {
 	 * @return result as new vector
 	 */
 	public final Vec2D getFrac() {
-		return new Vec2D((float) (x - Math.floor(x)), (float) (y - Math
-				.floor(y)));
+		return new Vec2D(x - MathUtils.fastFloor(x), y - MathUtils.fastFloor(y));
 	}
 
 	/**
@@ -513,8 +512,8 @@ public class Vec2D {
 	 * @return itself
 	 */
 	public final Vec2D frac() {
-		x = (float) (x - Math.floor(x));
-		y = (float) (y - Math.floor(y));
+		x -= MathUtils.fastFloor(x);
+		y -= MathUtils.fastFloor(y);
 		return this;
 	}
 
@@ -881,7 +880,7 @@ public class Vec2D {
 	 *         point.
 	 */
 
-	public Vec2D tangentPlaneNormalOfEllipse(Vec2D eO, Vec2D eR) {
+	public Vec2D tangentNormalOfEllipse(Vec2D eO, Vec2D eR) {
 		Vec2D p = this.sub(eO);
 
 		float xr2 = eR.x * eR.x;

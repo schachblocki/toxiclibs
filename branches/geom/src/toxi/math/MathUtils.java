@@ -23,6 +23,8 @@ import java.util.Random;
 
 public class MathUtils {
 
+	public static final float LOG2 = (float) Math.log(2);
+
 	public static final float PI = 3.14159265358979323846f;
 
 	public static final float HALF_PI = PI / 2;
@@ -31,7 +33,7 @@ public class MathUtils {
 
 	public static final float QUARTER_PI = PI / 4;
 
-	public static final float TWO_PI = PI * 2.0f;
+	public static final float TWO_PI = PI * 2;
 
 	public static final float EPS = 1.1920928955078125E-7f;
 
@@ -103,7 +105,6 @@ public class MathUtils {
 	 * @return a^b
 	 */
 	public static final float fastPow(float a, float b) {
-		// adapted from: http://www.dctsystems.co.uk/Software/power.html
 		float x = Float.floatToRawIntBits(a);
 		x *= 1.0f / (1 << 23);
 		x = x - 127;
@@ -147,5 +148,25 @@ public class MathUtils {
 	 */
 	public static final int fastFloor(float x) {
 		return x > 0 ? (int) x : (int) x - 1;
+	}
+
+	/**
+	 * Rounds down the value to the nearest lower power^2 value.
+	 * 
+	 * @param x
+	 * @return power^2 value
+	 */
+	public static final int floorPowerOf2(int x) {
+		return (int) Math.pow(2, (int) (Math.log(x) / LOG2));
+	}
+
+	/**
+	 * Rounds up the value to the nearest higher power^2 value.
+	 * 
+	 * @param x
+	 * @return power^2 value
+	 */
+	public static final int ceilPowerOf2(int x) {
+		return (int) Math.pow(2, (int) (Math.log(x) / LOG2 + 0.5));
 	}
 }
