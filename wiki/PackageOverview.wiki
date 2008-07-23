@@ -3,19 +3,26 @@
 
 = Package overview =
 
-Currently the following packages are available:
+==available packages==
 
-  * *toxi.audio* - [https://joal.dev.java.net/ JOAL] focused utilities/soundmanager
-  * *toxi.geom* - currently only consists of a comprehensive 3D vector class (Javadocs available in the [http://code.google.com/p/toxiclibs/downloads/list download])
-  * *toxi.image.util* - grayscale image filters, colour palette sorting
+  * *toxi.geom*
+    * 2d/3d vector maths, AABB, sphere, plane, triangle, ray, octree, spline, 4x4 matrix, intersection tests
+    * OBJ and STL exporters (able to support massive files, with optional STL colour support)
   * *toxi.math*
+    * common interpolation methods
+    * unit translators (between dpi, points, mm, pixels)
     * some (collected) faster implementations of assorted common math functions
     * sin/cos lookup tables
     * perlin & simplex noise
     * wave generators
+  * *toxi.physics*
+    * basic 3d particle physics engine with verlet integration
+  * *toxi.image.util* - grayscale image filters, colour palette sorting
   * *toxi.util.datatypes* - currently only TypedProperties class for dealing with Java property files
+
+
+==Currently suspended...==
+
+  * *toxi.audio* - [https://joal.dev.java.net/ JOAL] focused utilities/soundmanager
   * *toxi.video* - JMF based video capturing (needs updating)
-
-more to come...
-
-
+  * *toxi.net* - UDP based multi-machine frame synch for small PC clusters
