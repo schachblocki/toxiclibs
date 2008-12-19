@@ -1,19 +1,24 @@
 #summary Revision history for various releases
 #labels Featured,Phase-Implementation
 
+= colorutils =
+[http://code.google.com/p/toxiclibs/source/browse/tags/20081218/readme1st/color/CHANGELOG.txt change log]
+
 = geomutils =
+[http://code.google.com/p/toxiclibs/source/browse/tags/20081218/readme1st/geom/CHANGELOG.txt change log]
 
-== 0011: 2008-09-08 ==
+= imageutils =
 
-Download as [http://toxiclibs.googlecode.com/files/geomutils-0011.zip binary] or [http://toxiclibs.googlecode.com/files/geomutils-0011-src.zip source]
+[http://code.google.com/p/toxiclibs/source/browse/tags/20081218/readme1st/image/CHANGELOG.txt change log]
 
-===Bug fixes:===
+= libjoal =
 
-  * SimplexNoise now working in all 2D, 3D & 4D versions
-  * PointOctree & OBJWriter visibility issues
+[http://code.google.com/p/toxiclibs/source/browse/tags/20081218/readme1st/audio/CHANGELOG.txt change log]
 
-===Additions:===
+= prefutils =
 
-  * Quaternion class with spherical interpolation
-  * Matrix4x4 class (currently row-major ordering)
-  * SimplexNoiseTest demo
+[http://code.google.com/p/toxiclibs/source/browse/tags/20081218/readme1st/prefs/CHANGELOG.txt change log]
+
+= verletphysics =
+
+[http://code.google.com/p/toxiclibs/source/browse/tags/20081218/readme1st/physics/CHANGELOG.txt change log]
