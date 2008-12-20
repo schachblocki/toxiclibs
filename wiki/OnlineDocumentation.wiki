@@ -1,0 +1,12 @@
+#summary Online docs available
+#labels Featured,Phase-Support,Phase-Implementation
+
+= Online documentation =
+
+Javadocs for the latest release of each package are avaiable from here:
+
+|| audioutils || http://dev.postspectacular.com/docs/audioutils/ ||
+|| colorutils || http://dev.postspectacular.com/docs/colorutils/ ||
+|| geomutils || http://dev.postspectacular.com/docs/geomutils/ ||
+|| prefutils || http://dev.postspectacular.com/docs/prefutils/ ||
+|| verletphysics || http://dev.postspectacular.com/docs/verletphysics/ ||
