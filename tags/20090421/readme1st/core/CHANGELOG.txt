@@ -1,0 +1,24 @@
+0013 - 2009-02-20
+--------------------------------------------------------------------------------
+* massive refactoring of library package structure (last one for a while, hopefully!)
+* renamed geomutils into toxiclibscore, deprecated & merged prefutils into core libs
+! fixed issue 7, Y/Z coords were swapped in Vec3D.rotateX() & getRotatedX()
+! fixed little endian encoding bug in toxi.geom.util.STLWriter
++ added pointInPolygon() to Vec2D
++ replaced Vec3D isInSphere() with Sphere.containsPoint()
+
+0012 - 2008-12-18
+--------------------------------------------------------------------------------
+! switched to Java 1.5 syntax
+
+toxi.math.waves
++ FMSawtoothWave
++ FMSquareWave
++ FMBandwidthLimitedSquareWave
++ ConstantWave
+* made all wave properties public and deprecated the existing getters/setters
+
+toxi.math.MathUtils
+* deprecated fastInverseSqrt(), sqrt(), fastPow() since not faster at all anymore
+* renamed fastFloor() into floor() (it's still faster than Math.floor() though)
++ added degrees(), radians() for conversion
