@@ -5,8 +5,8 @@
 
 Javadocs for the latest release of each package are avaiable from here:
 
+|| *core* || http://dev.postspectacular.com/docs/core/ ||
 || audioutils || http://dev.postspectacular.com/docs/audioutils/ ||
 || colorutils || http://dev.postspectacular.com/docs/colorutils/ ||
-|| geomutils || http://dev.postspectacular.com/docs/geomutils/ ||
-|| prefutils || http://dev.postspectacular.com/docs/prefutils/ ||
 || verletphysics || http://dev.postspectacular.com/docs/verletphysics/ ||
+|| volumeutils || http://dev.postspectacular.com/docs/volume/ ||
