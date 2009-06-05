@@ -9,4 +9,4 @@ Javadocs for the latest release of each package are avaiable from here:
 || audioutils || http://dev.postspectacular.com/docs/audioutils/ ||
 || colorutils || http://dev.postspectacular.com/docs/colorutils/ ||
 || verletphysics || http://dev.postspectacular.com/docs/verletphysics/ ||
-|| volumeutils || http://dev.postspectacular.com/docs/volume/ ||
+|| volumeutils || http://dev.postspectacular.com/docs/volumeutils/ ||
