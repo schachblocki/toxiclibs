@@ -2,7 +2,7 @@
 #labels Featured,Phase-Requirements,Phase-Support
 = Showreel September 2009 =
 
-The toxiclibs project is now 2.5 years old, development & downloads have increased steadily (especially this year) and a dedicated website/blog is forthcoming. So I'm planning to producing a short (~2mins) video showcasing various projects which are relying on & utilizing some of the toxiclibs packages. The video is mainly intended to support my upcoming talk about the libraries at [http://flashonthebeach.com Flash On The Beach] on September 22, 2009, but would also be a nice snapshot of the project so far and hopefully provide a source of inspiration for others.
+The toxiclibs project is now 2.5 years old, development & downloads have increased steadily (especially this year) and a dedicated website/blog is forthcoming. So I'm planning to produce a short (~2mins) video showcasing various projects which are relying on & utilizing some of the toxiclibs packages. The video is mainly intended to support my upcoming talk about the libraries at [http://flashonthebeach.com Flash On The Beach] on September 22, 2009, but would also be a nice snapshot of the project so far and hopefully provide a source of inspiration for others.
 
 So my hope is that you as the current users of the libraries would be interested & willing to take part in this by contributing any materials (screenshots, or if possible videos) of your own projects. I'll make sure that everyone is properly credited and would also send out a preview of the video to all contributors before publishing it online (vimeo) & showing at FOTB.
 
