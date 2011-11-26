@@ -5,8 +5,12 @@
 
 Javadocs for the latest release of each package are avaiable from here:
 
-|| *core* || http://dev.postspectacular.com/docs/core/ ||
-|| audioutils || http://dev.postspectacular.com/docs/audioutils/ ||
-|| colorutils || http://dev.postspectacular.com/docs/colorutils/ ||
-|| verletphysics || http://dev.postspectacular.com/docs/verletphysics/ ||
-|| volumeutils || http://dev.postspectacular.com/docs/volumeutils/ ||
+|| toxiclibscore || http://toxiclibs.org/docs/core/ ||
+|| audioutils || http://toxiclibs.org/docs/audioutils/ || 
+|| colorutils || http://toxiclibs.org/docs/colorutils/|| 
+|| datautils || http://toxiclibs.org/docs/datautils/ || 
+|| imageutils || http://toxiclibs.org/docs/imageutils/ || 
+|| p5 support || http://toxiclibs.org/docs/p5/ ||  
+|| simutils || http://toxiclibs.org/docs/simutils/ || 
+|| verletphysics || http://toxiclibs.org/docs/verletphysics/ || 
+|| volumeutils || http://toxiclibs.org/docs/volumeutils/ || 
